@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+
   def new
     @contact = Contact.new
   end
@@ -6,7 +7,7 @@ class ContactsController < ApplicationController
   def create
     @contact = Contact.new(secure_params)
     if @contact.valid?
-      # TODO send message
+      UserMailer.contact_email(@contact).deliver_now
       flash[:notice] = "Message sent from #{@contact.name}."
       redirect_to root_path
     else
